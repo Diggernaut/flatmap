@@ -79,7 +79,13 @@ func flattenMap(result FlatMap, prefix string, v reflect.Value) (err error) {
 func flattenSliceArray(result FlatMap, prefix string, v reflect.Value) (err error) {
 	prefix = prefix + "."
 	for i := 0; i < v.Len(); i++ {
-		err = flatten(result, fmt.Sprintf("%s%d", prefix, i), v.Index(i))
+
+		if i <= 9 && i > 0 {
+			prefix = fmt.Sprintf("%s0%d", prefix, i)
+		} else {
+			prefix = fmt.Sprintf("%s%d", prefix, i)
+		}
+		err = flatten(result, prefix, v.Index(i))
 		if err != nil {
 			return err
 		}
